@@ -1,0 +1,60 @@
+from math import e
+import random
+from collections import Counter
+
+class Bot:
+    def __init__(self):
+        self.user_input_history = []
+        
+    def get_user_input(self):
+        user_input = input("User: ")
+        self.user_input_history.append(user_input)
+        return user_input
+    
+    # elif any(keyword in user_input.lower() for keyword in []):
+    #    response = []
+    #    return random.choice(response)
+
+    def respond_to_user_input(self, user_input):
+        
+        if any(keyword in user_input.lower() for keyword in ["hello", "hi"]):
+            response = ["FriendBot: Hi! How are you?", "FriendBot: Hello. What's up?", "FriendBot: Hey. How is it going?"]
+            return random.choice(response)
+        elif any(keyword in user_input.lower() for keyword in ["good day", "nice day"]):
+            response = ["FriendBot: Good day!"]
+            return random.choice(response)
+    
+        else:
+            default_response = [
+                                "FriendBot: I couldn't understand", 
+                                "FriendBot: I didn't get it", 
+                                "FriendBot: Could you rephase?",
+                                "FriendBot: Don't understand you"
+                               ]
+            return random.choice(default_response)
+            
+    def chat(self):
+        print("Starting chat...")
+        print("Type (exit; bye; goodbye) to end chat \n")
+        while True:
+            user_input = self.get_user_input()
+            if any(keyword in user_input.lower() for keyword in ["exit", "bye", "goodbye"]):
+                print("FriendBot: Goodbye!")
+                break
+            response = self.respond_to_user_input(user_input)
+            print(response)
+            
+        print("\n _Conversation Result_")
+        print("\n ")
+        print("Input History:")
+        for i, input_text in enumerate(self.user_input_history, 1):
+            print(f"{i}. {input_text}")
+            
+        most_common_input = Counter(self.user_input_history).most_common(1)
+        if most_common_input:
+            print(f"\n Most Popular Input: '{most_common_input[0][0]}' (Occured {most_common_input[0][1]} times)")
+            
+        print(f"\n Total Messages: {len(self.user_input_history)}")
+        
+FriendBot = Bot()
+FriendBot.chat()
